@@ -87,6 +87,20 @@ class Database {
         });
     }
 
+    removeTrackedMessage(messageId) {
+        return new Promise((resolve, reject) => {
+            const query = `DELETE FROM tracked_messages WHERE message_id = ?`;
+            
+            this.db.run(query, [messageId], function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(this.changes); // Returns number of rows affected
+                }
+            });
+        });
+    }
+
     closeDatabase() {
         if (this.db) {
             this.db.close((err) => {

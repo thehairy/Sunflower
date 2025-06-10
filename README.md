@@ -107,11 +107,10 @@ npm start
 
 ### Slash Commands
 - `/ping` - Check bot latency and response time
-- `/tracked` - View all tracked messages (requires Manage Messages permission)
+- `/untrack` - Remove a message from tracking
 
 ### Prefix Commands
 - `!ping` - Check bot latency and response time
-- `!status` - Show bot status and statistics
 
 ## How It Works
 
