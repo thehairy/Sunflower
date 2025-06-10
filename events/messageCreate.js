@@ -10,20 +10,22 @@ module.exports = {
         // Check for target phrase and add to database if found
         const targetPhrase = process.env.TARGET_PHRASE || 'keyword to track';
         const targetEmoji = process.env.TARGET_EMOJI || '✅';
+        const targetChannelId = process.env.TARGET_CHANNEL_ID;
         
         if (message.content.toLowerCase().includes(targetPhrase.toLowerCase())) {
             try {
-                // Add message to database for tracking
-                await database.addTrackedMessage(
-                    message.id,
-                    message.channel.id,
-                    message.author.id,
-                    message.content
-                );
-                
                 // React with the target emoji
                 await message.react(targetEmoji);
-                
+
+                if (message.channel.id === targetChannelId) {
+                    // Add message to database for tracking
+                    await database.addTrackedMessage(
+                        message.id,
+                        message.channel.id,
+                        message.author.id,
+                        message.content
+                    );
+                }
                 console.log(`Tracked message from ${message.author.tag} containing phrase: "${targetPhrase}"`);
             } catch (error) {
                 console.error('Error tracking message:', error);
