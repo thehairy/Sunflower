@@ -96,6 +96,8 @@ set /p "TARGET_CHANNEL_ID=Target Channel ID (optional): "
 
 set /p "TARGET_ROLE_ID=Target Role ID (optional): "
 
+set /p "EXCLUDED_ROLE_IDS=Excluded Role IDs (comma-separated, optional): "
+
 set /p "NEW_NICKNAME=New Nickname for verified members [Verified Member]: "
 if "!NEW_NICKNAME!"=="" set "NEW_NICKNAME=Verified Member"
 
@@ -112,6 +114,7 @@ echo TARGET_PHRASE=!TARGET_PHRASE!
 echo TARGET_EMOJI=!TARGET_EMOJI!
 echo TARGET_CHANNEL_ID=!TARGET_CHANNEL_ID!
 echo TARGET_ROLE_ID=!TARGET_ROLE_ID!
+echo EXCLUDED_ROLE_IDS=!EXCLUDED_ROLE_IDS!
 echo NEW_NICKNAME=!NEW_NICKNAME!
 ) > .env
 

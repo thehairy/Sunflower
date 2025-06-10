@@ -96,6 +96,7 @@ TARGET_PHRASE=$(read_with_default "Target Phrase to track" "verified")
 TARGET_EMOJI=$(read_with_default "Target Emoji for reactions" "✅")
 TARGET_CHANNEL_ID=$(read_with_default "Target Channel ID (optional)" "")
 TARGET_ROLE_ID=$(read_with_default "Target Role ID (optional)" "")
+EXCLUDED_ROLE_IDS=$(read_with_default "Excluded Role IDs (comma-separated, optional)" "")
 NEW_NICKNAME=$(read_with_default "New Nickname for verified members" "Verified Member")
 
 # Create .env file
@@ -111,6 +112,7 @@ TARGET_PHRASE=$TARGET_PHRASE
 TARGET_EMOJI=$TARGET_EMOJI
 TARGET_CHANNEL_ID=$TARGET_CHANNEL_ID
 TARGET_ROLE_ID=$TARGET_ROLE_ID
+EXCLUDED_ROLE_IDS=$EXCLUDED_ROLE_IDS
 NEW_NICKNAME=$NEW_NICKNAME
 EOF
 

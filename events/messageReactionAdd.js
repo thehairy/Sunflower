@@ -16,12 +16,12 @@ module.exports = {
                 return;
             }
         }
-        
-        // Get configuration from environment variables
+          // Get configuration from environment variables
         const targetChannelId = process.env.TARGET_CHANNEL_ID;
         const targetEmoji = process.env.TARGET_EMOJI || '✅';
         const targetRoleId = process.env.TARGET_ROLE_ID;
         const newNickname = process.env.NEW_NICKNAME || 'Verified Member';
+        const excludedRoleIds = process.env.EXCLUDED_ROLE_IDS ? process.env.EXCLUDED_ROLE_IDS.split(',').map(id => id.trim()) : [];
         
         // Check if reaction is in the target channel
         if (targetChannelId && reaction.message.channel.id !== targetChannelId) {
@@ -34,6 +34,24 @@ module.exports = {
         }
         
         try {
+            // Get the guild and member first to check for excluded roles
+            const guild = reaction.message.guild;
+            const member = await guild.members.fetch(user.id);
+            
+            if (!member) {
+                console.error('Could not fetch member');
+                return;
+            }
+            
+            // Check if user has any excluded roles
+            if (excludedRoleIds.length > 0) {
+                const hasExcludedRole = member.roles.cache.some(role => excludedRoleIds.includes(role.id));
+                if (hasExcludedRole) {
+                    console.log(`User ${user.tag} has an excluded role, skipping reaction processing`);
+                    return;
+                }
+            }
+            
             // Query database to check if this message is being tracked
             const trackedMessage = await database.getTrackedMessage(reaction.message.id);
             
@@ -43,15 +61,6 @@ module.exports = {
             }
             
             console.log(`Valid reaction found on tracked message by ${user.tag}`);
-            
-            // Get the guild and member
-            const guild = reaction.message.guild;
-            const member = await guild.members.fetch(user.id);
-            
-            if (!member) {
-                console.error('Could not fetch member');
-                return;
-            }
             
             // Set nickname if possible
             if (member.manageable) {

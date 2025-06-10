@@ -73,6 +73,7 @@ TARGET_PHRASE=keyword to track
 TARGET_EMOJI=✅
 TARGET_CHANNEL_ID=your_channel_id_here
 TARGET_ROLE_ID=your_role_id_here
+EXCLUDED_ROLE_IDS=role_id1,role_id2,role_id3
 NEW_NICKNAME=Verified Member
 ```
 
@@ -122,9 +123,13 @@ npm start
 ### Role Assignment
 1. Bot monitors reactions in the specified `TARGET_CHANNEL_ID`
 2. When `TARGET_EMOJI` is added to a tracked message:
+   - Checks if the user has any roles listed in `EXCLUDED_ROLE_IDS` (if configured)
+   - If user has excluded roles, the reaction is ignored
    - Sets user's nickname to `NEW_NICKNAME`
    - Assigns the `TARGET_ROLE_ID` role
    - Logs the action to console
+
+**Note:** Users with roles listed in `EXCLUDED_ROLE_IDS` will not trigger role assignment or nickname changes when reacting to tracked messages. This is useful for excluding staff, bots, or other special roles from the verification process.
 
 ### Database Schema
 
