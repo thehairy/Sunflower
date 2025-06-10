@@ -29,10 +29,15 @@ module.exports = {
             if (evaled instanceof Promise) {
                 evaled = await evaled;
             }
-            
-            // Convert result to string
+              // Convert result to string
             if (typeof evaled !== 'string') {
-                evaled = require('util').inspect(evaled, { depth: 0 });
+                evaled = require('util').inspect(evaled, { 
+                    depth: 3, 
+                    colors: false, 
+                    maxArrayLength: 10,
+                    maxStringLength: 200,
+                    compact: false
+                });
             }
             
             // Limit output length to prevent spam
