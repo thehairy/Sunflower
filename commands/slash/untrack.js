@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField, MessageFlags } = require('discord.js');
 const database = require('../../database/init');
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
             if (!trackedMessage) {
                 await interaction.reply({
                     content: `❌ Message with ID \`${messageId}\` is not being tracked.`,
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
                 return;
             }
@@ -56,12 +56,12 @@ module.exports = {
                            `📍 **Channel:** <#${trackedMessage.channel_id}>\n` +
                            `👤 **Original Author:** <@${trackedMessage.user_id}>${messageInfo}\n\n` +
                            `This message will no longer trigger role assignments when reacted to.`,
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             } else {
                 await interaction.reply({
                     content: `❌ Failed to untrack message with ID \`${messageId}\`. It may have already been removed.`,
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
             
@@ -71,7 +71,7 @@ module.exports = {
             if (!interaction.replied && !interaction.deferred) {
                 await interaction.reply({
                     content: '❌ There was an error while executing this command!',
-                    ephemeral: true
+                    flags: MessageFlags.Ephemeral
                 });
             }
         }
