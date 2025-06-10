@@ -1,0 +1,20 @@
+{
+  "name": "sunflower",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js",
+    "deploy": "node deploy-commands.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Discord bot with command handlers, event handlers, and SQLite database integration for message tracking and role management",
+  "dependencies": {
+    "discord.js": "^14.19.1",
+    "dotenv": "^16.5.0",
+    "sqlite3": "^5.1.7"
+  }
+}
