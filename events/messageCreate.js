@@ -25,8 +25,8 @@ module.exports = {
                         message.author.id,
                         message.content
                     );
+                    console.log(`Tracked message from ${message.author.tag} containing phrase: "${targetPhrase}"`);
                 }
-                console.log(`Tracked message from ${message.author.tag} containing phrase: "${targetPhrase}"`);
             } catch (error) {
                 console.error('Error tracking message:', error);
             }
