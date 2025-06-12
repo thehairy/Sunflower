@@ -3,7 +3,7 @@ const database = require('../database/init');
 
 module.exports = {
     name: Events.MessageCreate,
-    async execute(message, client) {
+    async execute(message) {
         // Ignore bot messages
         if (message.author.bot) return;
         
@@ -56,11 +56,11 @@ module.exports = {
         const args = message.content.slice(prefix.length).trim().split(/ +/);
         const commandName = args.shift().toLowerCase();
         
-        const command = client.prefixCommands.get(commandName);
+        const command = message.client.prefixCommands.get(commandName);
         if (!command) return;
         
         try {
-            await command.execute(message, args, client);
+            await command.execute(message, args);
         } catch (error) {
             console.error('Error executing prefix command:', error);
             await message.reply('There was an error while executing this command!');

@@ -3,7 +3,7 @@ const database = require('../database/init');
 
 module.exports = {
     name: Events.MessageReactionAdd,
-    async execute(reaction, user, client) {
+    async execute(reaction, user) {
         // Ignore bot reactions
         if (user.bot) return;
 

@@ -2,11 +2,11 @@ const { Events } = require('discord.js');
 
 module.exports = {
     name: Events.InteractionCreate,
-    async execute(interaction, client) {
+    async execute(interaction) {
         // Handle slash commands
         if (interaction.isChatInputCommand()) {
-            const command = client.slashCommands.get(interaction.commandName);
-            
+            const command = interaction.client.slashCommands.get(interaction.commandName);
+
             if (!command) {
                 console.error(`No command matching ${interaction.commandName} was found.`);
                 return;
