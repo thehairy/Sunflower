@@ -11,6 +11,8 @@ module.exports = {
         const targetPhrase = process.env.TARGET_PHRASE || 'keyword to track';
         const targetEmoji = process.env.TARGET_EMOJI || '✅';
         const targetChannelId = process.env.TARGET_CHANNEL_ID;
+
+        const otherPhrases = process.env.OTHER_PHRASES ? process.env.OTHER_PHRASES.split(',').map(phrase => phrase.trim().toLowerCase()) : [];
         
         if (message.content.toLowerCase().includes(targetPhrase.toLowerCase())) {
             try {
@@ -32,6 +34,19 @@ module.exports = {
             }
 
             return;
+        }
+
+        // Check for other phrases
+        if (otherPhrases.length > 0) {
+            for (const phrase of otherPhrases) {
+                if (message.content.toLowerCase().includes(phrase)) {
+                    try {
+                        await message.react(targetEmoji);
+                    } catch (error) {
+                        console.error('Error reacting to message:', error);
+                    }
+                }
+            }
         }
         
         // Handle prefix commands
