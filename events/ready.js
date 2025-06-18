@@ -12,7 +12,7 @@ module.exports = {
         client.user.setActivity('🎵 Playing music 24/7', { type: 'LISTENING' });
 
         // Initialize music manager
-        client.musicManager = new MusicManager();
+        client.musicManager = new MusicManager(client);
 
         // Join voice channel and start playing music
         const guildId = process.env.GUILD_ID;

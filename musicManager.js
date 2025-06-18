@@ -1,9 +1,15 @@
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
+const { Client, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
 class MusicManager {
-    constructor() {
+    /**
+     * 
+     * @param {Client} client 
+     */
+    constructor(client) {
+        this.client = client;
         this.connection = null;
         this.player = null;
         this.tracks = [];
@@ -121,6 +127,12 @@ class MusicManager {
             
             resource.volume?.setVolume(0.5); // Set volume to 50%
             this.player.play(resource);
+
+            this.client.rest.put(`/channels/${this.connection.joinConfig.channelId}/voice-status`, {
+                body: {
+                    status: `Playing: ${this.currentTrack.name}`,
+                }
+            }).then(console.log).catch(console.error);
         } catch (error) {
             console.error(`Error playing track ${this.currentTrack.name}:`, error);
             this.playNext();
