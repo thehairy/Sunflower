@@ -129,7 +129,7 @@ class MusicManager {
 
         try {
             const resource = createAudioResource(this.currentTrack.path, {
-                inlineVolume: true,
+                inlineVolume: false,
                 inputType: 'arbitrary',
                 metadata: {
                     title: this.currentTrack.name
