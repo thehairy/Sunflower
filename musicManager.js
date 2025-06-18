@@ -79,11 +79,18 @@ class MusicManager {
                 channelId: channelId,
                 guildId: guild.id,
                 adapterCreator: guild.voiceAdapterCreator,
+                selfDeaf: false,
             });
 
             this.connection.on(VoiceConnectionStatus.Ready, () => {
                 console.log('Voice connection is ready!');
                 this.connection.subscribe(this.player);
+            
+                // Set higher quality encoding if possible
+                if (this.connection.state.networking) {
+                    this.connection.state.networking.state.udp?.socket?.setBroadcast?.(true);
+                }
+
                 this.startPlayback();
             });
 
@@ -109,7 +116,7 @@ class MusicManager {
             return;
         }
 
-        this.playTrack(0);
+        this.playTrack(13);
     }
 
     playTrack(index) {
@@ -122,17 +129,21 @@ class MusicManager {
 
         try {
             const resource = createAudioResource(this.currentTrack.path, {
-                inlineVolume: true
+                inlineVolume: true,
+                inputType: 'arbitrary',
+                metadata: {
+                    title: this.currentTrack.name
+                }
             });
             
-            resource.volume?.setVolume(0.5); // Set volume to 50%
+            resource.volume?.setVolume(0.8);
             this.player.play(resource);
 
             this.client.rest.put(`/channels/${this.connection.joinConfig.channelId}/voice-status`, {
                 body: {
                     status: `Playing: ${this.currentTrack.name}`,
                 }
-            }).then(console.log).catch(console.error);
+            }).catch(console.error);
         } catch (error) {
             console.error(`Error playing track ${this.currentTrack.name}:`, error);
             this.playNext();
